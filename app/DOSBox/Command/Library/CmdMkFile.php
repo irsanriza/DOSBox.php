@@ -8,6 +8,7 @@ use DOSBox\Filesystem\File;
 use DOSBox\Command\BaseCommand as Command;
 
 class CmdMkFile extends Command {
+    namespace DOSBox\Command\Library;
     public function __construct($commandName, IDrive $drive){
         parent::__construct($commandName, $drive);
     }
@@ -28,8 +29,22 @@ class CmdMkFile extends Command {
             $fileContent = $this->params[1];
 
         }
-        $newFile = new File($fileName, $fileContent);
-        $this->getDrive()->getCurrentDirectory()->add($newFile);
+        $this->directoryToPrint = $this->getDrive()->getCurrentDirectory()->getContent();
+        $duplicate = false; 
+        foreach ($this->directoryToPrint as $item) {
+            $isi = $item->getName();
+            if ($isi==$fileName) {
+                $duplicate = true;              
+            } 
+        }
+
+        if ($duplicate==false){
+            $newFile = new File($fileName, $fileContent);
+            $this->getDrive()->getCurrentDirectory()->add($newFile);
+        } else {
+            $outputter->printNoLine("duplicate file/folder exist, no file created!");
+            $outputter->newLine();
+        }
     }
 
 }
