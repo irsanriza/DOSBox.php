@@ -24,6 +24,8 @@ class Console {
 
         $line = "";
 
+
+
         while(strcmp(trim($line), "exit") != 0){
             $this->outputter->newLine();
             $this->outputter->printNoLine($this->drive->getPrompt());
@@ -36,8 +38,13 @@ class Console {
             } catch (Exception $e){
                 // do nothing by intention
             }
+            $x=explode(" ",$line);
+            if ($x[0]=="exit") {
+                $line="exit";
+            }
+     
 
-            $this->invoker->executeCommand($line, $this->outputter);
+           // $this->invoker->executeCommand($line, $this->outputter);
         }
 
         $this->outputter->printLine("Goodbye!");

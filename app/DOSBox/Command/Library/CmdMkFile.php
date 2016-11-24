@@ -22,7 +22,12 @@ class CmdMkFile extends Command {
 
     public function execute(IOutputter $outputter){
         $fileName = $this->params[0];
-        $fileContent = $this->params[1];
+        if (count($this->params)==1) {
+            $fileContent="";
+        } else {
+            $fileContent = $this->params[1];
+
+        }
         $newFile = new File($fileName, $fileContent);
         $this->getDrive()->getCurrentDirectory()->add($newFile);
     }
