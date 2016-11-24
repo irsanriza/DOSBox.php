@@ -8,7 +8,7 @@ use DOSBox\Filesystem\File;
 use DOSBox\Command\BaseCommand as Command;
 
 class CmdMkFile extends Command {
-    namespace DOSBox\Command\Library;
+    private $directoryToPrint;
     public function __construct($commandName, IDrive $drive){
         parent::__construct($commandName, $drive);
     }
