@@ -27,11 +27,12 @@ class Console {
         while(strcmp(trim($line), "exit") != 0){
             $this->outputter->newLine();
             $this->outputter->printNoLine($this->drive->getPrompt());
-
+			
             try{
                 $char = trim(fread(STDIN, 256));
                 //$char = trim(fgets(STDIN));
                 $line = $char;
+
             } catch (Exception $e){
                 // do nothing by intention
             }
