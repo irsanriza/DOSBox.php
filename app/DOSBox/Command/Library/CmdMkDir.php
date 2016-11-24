@@ -8,6 +8,7 @@ use DOSBox\Filesystem\Directory;
 use DOSBox\Command\BaseCommand as Command;
 
 class CmdMkDir extends Command {
+    private $directoryToPrint;
     const PARAMETER_CONTAINS_BACKLASH = "At least one parameter denotes a path rather than a directory name.";
 
     public function __construct($commandName, IDrive $drive){
@@ -39,7 +40,22 @@ class CmdMkDir extends Command {
 
     public function execute(IOutputter $outputter){
         for($i=0; $i < $this->getParameterCount(); $i++) {
-            $this->createDirectory($this->params[$i], $this->getDrive());
+            $this->directoryToPrint = $this->getDrive()->getCurrentDirectory()->getContent();
+            $duplicate = false; 
+            foreach ($this->directoryToPrint as $item) {
+                $isi = $item->getName();
+                if ($isi==$this->params[$i]) {
+                    $duplicate = true;              
+                } 
+            }
+            
+            if ($duplicate==false){
+                $this->createDirectory($this->params[$i], $this->getDrive());   
+            } else {
+                $outputter->printNoLine("duplicate file/folder exist, folder ");
+                $outputter->printNoLine($this->params[$i]);
+                $outputter->printLine("not created!"); 
+            }
         }
     }
 
